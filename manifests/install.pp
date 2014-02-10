@@ -4,14 +4,18 @@ class kvm::install inherits kvm {
     ensure => installed,
   }
 
+if !defined(Package['qemu-kvm']) {
   package { 'qemu-kvm':
     ensure => installed,
   }
-
-  package { 'libvirt-bin':
+}
+ 
+if !defined(Package['libvirt']) {
+  package { 'libvirt':
+	name	=> 'libvirt-bin',
 	ensure 	=> installed,
   }
-
+}
   package { 'qemu-kvm-spice':
 	ensure 	=> installed,
   }

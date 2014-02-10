@@ -9,7 +9,7 @@ service { 'dbus':
       provider  => "upstart",
     }
 ->
-service { 'libvirt-bin':
+service { 'libvirt':
       ensure     => running,
       enable     => true,
       name       => "libvirt-bin",
