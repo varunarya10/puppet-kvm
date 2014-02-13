@@ -73,28 +73,5 @@ service { 'libvirt':
   }
 
    
-## Remove default network if already there
-  exec { 'rm_virbr0': 
-	command => "virsh net-destroy default && virsh net-undefine default",
-	path    => "/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/sbin",
-	onlyif 	=> "virsh -q net-list | grep -q default" ,
-	require => Service['libvirt-bin'],
-  }
-
-
-## Start 
-  
-#    ~>
-#	notify { "Removing default libvirt nat bridge":}
-#-> 
-#  if $::br_configured =~ /.*,"$bridge",.*/ {
-#    file { "/tmp/out":
-#	ensure 	=> file,
-#	owner 	=> root,
-#	content => "$br_configured\n",
-#	}
-#  } else {
-#    notify {"Bridge -${bridge}- is not configured":}	
-#  }
 
 }
