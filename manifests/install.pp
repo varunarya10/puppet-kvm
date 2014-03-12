@@ -17,7 +17,7 @@ if !defined(Package['libvirt']) {
   }
 }
   package { 'qemu-kvm-spice':
-	ensure 	=> installed,
+	ensure 	=> purged,
   }
 
 }
