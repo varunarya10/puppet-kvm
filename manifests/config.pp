@@ -1,6 +1,32 @@
 #
 class kvm::config inherits kvm {
 
+file { "/etc/apparmor.d/usr.sbin.libvirtd":
+        ensure  => file,
+        owner   => root,
+        group   => root,
+        mode    => 0644,
+        content => template("kvm/usr.sbin.libvirtd"),
+	notify => Service['apparmor'],
+  }
+
+file { "/etc/apparmor.d/abstractions/libvirt-qemu":
+        ensure  => file,
+        owner   => root,
+        group   => root,
+        mode    => 0644,
+        content => template("kvm/libvirt-qemu"),
+	notify => Service['apparmor'],
+  }
+
+service { 'apparmor':
+      ensure     => running,
+      enable     => true,
+      hasstatus  => true,
+      hasrestart => true,
+      provider  => "upstart",
+    }
+
 service { 'dbus':
       ensure     => running,
       enable     => true,
@@ -49,6 +75,10 @@ service { 'libvirt':
         unless  => "test -f /var/lib/libvirt/images/$vm_name/disk_image.qcow2",
         require => File["/var/lib/libvirt/images/$vm_name/host.xml"],
 	before	=> Exec['vm_define'],
+    }
+  } elsif $source == 'rbd' {
+    if ! $rbd_disk_image {
+	fail("There must be a valid rbd disk image mention")
     }
   } else {
 	warn("$source is not valid Source")

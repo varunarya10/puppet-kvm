@@ -34,12 +34,30 @@
   <on_crash>destroy</on_crash>
   <devices>
     <emulator>/usr/bin/kvm-spice</emulator>
+   <% if @rbd_disk_image.any? %>
+    <disk type='network' device='disk'>
+      <driver name='qemu' type='raw' cache='none'/>
+      <auth username='mgmt_vm'>
+        <secret type='ceph' uuid='d5a71695-e4de-45fd-b084-f0af0123fc7d'/>
+      </auth>
+      <source protocol='rbd' name='mgmt_vm_images/'<%= @rbd_disk_image %> >
+        <host name='10.135.96.15' port='6789'/>
+        <host name='10.135.96.35' port='6789'/>
+        <host name='10.135.96.40' port='6789'/>
+      </source>
+      <target dev='vda' bus='virtio'/>
+      <serial>ceb7cfbf-0aa7-40ed-a1ad-0d94a0c3d96d</serial>
+      <alias name='virtio-disk0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
+    </disk>
+   <% else %>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2' cache='none'/>
       <source file='/var/lib/libvirt/images/<%= vm_name %>/disk_image.qcow2'/>
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
     </disk>
+   <% end %>
     <controller type='usb' index='0'>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x2'/>
     </controller>
