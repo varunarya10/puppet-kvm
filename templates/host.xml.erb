@@ -40,7 +40,7 @@
       <auth username='mgmt_vm'>
         <secret type='ceph' uuid='d5a71695-e4de-45fd-b084-f0af0123fc7d'/>
       </auth>
-      <source protocol='rbd' name='mgmt_vm_images/'<%= @rbd_disk_image %> >
+      <source protocol='rbd' name='mgmt_vm_images/<%= @rbd_disk_image %>' >
         <host name='10.135.96.15' port='6789'/>
         <host name='10.135.96.35' port='6789'/>
         <host name='10.135.96.40' port='6789'/>
