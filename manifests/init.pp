@@ -8,6 +8,7 @@ class kvm (
     $vm_serial	= 'mu.jio-p1-ctrl-1',
     $source	= 'image',
     $disk_size	= '20G',
+    $rbd_disk_image	= undef,
     $mac_addr,
 ) {
 
