@@ -34,7 +34,7 @@
   <on_crash>destroy</on_crash>
   <devices>
     <emulator>/usr/bin/kvm-spice</emulator>
-   <% if @rbd_disk_image.any? %>
+   <% if @rbd_disk_image.is_a?(String) %>
     <disk type='network' device='disk'>
       <driver name='qemu' type='raw' cache='none'/>
       <auth username='mgmt_vm'>
