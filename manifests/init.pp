@@ -9,7 +9,6 @@ class kvm (
     $source	= 'image',
     $disk_size	= '20G',
     $rbd_disk_image	= undef,
-    $mac_addr,
 ) {
 
 class { '::kvm::install': } ->
