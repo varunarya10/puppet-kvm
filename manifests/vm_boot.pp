@@ -29,7 +29,7 @@ define kvm::vm_boot  (
   }
 
   if $source == 'image' {
-    exec { 'getimage_${vm_name}':
+    exec { "getimage_${vm_name}":
    	command => "wget $image_url -O /var/lib/libvirt/images/$vm_name/disk_image.qcow2",
 	path	=> "/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/sbin",
 	unless	=> "test -f /var/lib/libvirt/images/$vm_name/disk_image.qcow2",
@@ -37,7 +37,7 @@ define kvm::vm_boot  (
 	before	=> Exec['vm_define'],
     }
   } elsif $source == 'pxe' {
-    exec { 'bootimage_${vm_name}':
+    exec { "bootimage_${vm_name}":
 	command => "qemu-img create -f qcow2 /var/lib/libvirt/images/$vm_name/disk_image.qcow2 $disk_size",
 	path    => "/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/sbin",
         unless  => "test -f /var/lib/libvirt/images/$vm_name/disk_image.qcow2",
@@ -57,7 +57,7 @@ define kvm::vm_boot  (
 ## Define the VM, if not already defined in libvirt
 ## Also enable autostart to make sure the vm boot on startup
 
-  exec { 'vm_define_${vm_name}':
+  exec { "vm_define_${vm_name}":
         command => "virsh define /var/lib/libvirt/images/$vm_name/host.xml; virsh autostart $vm_name",
         path    => "/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/sbin",
         unless  => "virsh -q list --all | grep -q $vm_name",
@@ -65,7 +65,7 @@ define kvm::vm_boot  (
 
 -> 
 
-  exec { 'vm_boot_${vm_name}':
+  exec { "vm_boot_${vm_name}":
         command => "virsh start $vm_name",
         path    => "/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/sbin",
         unless  => "virsh -q list --all | grep -q \"$vm_name *running\"",
