@@ -34,7 +34,7 @@ define kvm::vm_boot  (
 	path	=> "/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/sbin",
 	unless	=> "test -f /var/lib/libvirt/images/$vm_name/disk_image.qcow2",
 	require	=> File["/var/lib/libvirt/images/$vm_name/host.xml"],
-	before	=> Exec['vm_define'],
+	before	=> Exec["vm_define_${vm_name}"],
     }
   } elsif $source == 'pxe' {
     exec { "bootimage_${vm_name}":
@@ -42,7 +42,7 @@ define kvm::vm_boot  (
 	path    => "/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/sbin",
         unless  => "test -f /var/lib/libvirt/images/$vm_name/disk_image.qcow2",
         require => File["/var/lib/libvirt/images/$vm_name/host.xml"],
-	before	=> Exec['vm_define'],
+	before	=> Exec["vm_define_${vm_name}"],
     }
   } elsif $source == 'rbd' {
     if ! $rbd_disk_image {
