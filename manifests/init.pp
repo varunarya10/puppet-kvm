@@ -9,6 +9,8 @@ class kvm (
     $source	= 'image',
     $disk_size	= '20G',
     $rbd_disk_image	= undef,
+    $mgmt_vm_virsh_secret_uuid,
+    $mgmt_vm_virsh_secret_value,
 ) {
 
 class { '::kvm::install': } ->
