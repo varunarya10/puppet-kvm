@@ -53,7 +53,7 @@
    <% else %>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2' cache='none'/>
-      <source file='<%= @vmimage_path %>/<%= vm_name %>/disk_image.qcow2'/>
+      <source file='<%= @vmimage_path %>/<%= @vm_name %>/disk_image.qcow2'/>
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
     </disk>
