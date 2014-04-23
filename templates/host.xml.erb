@@ -1,16 +1,16 @@
 <domain type='kvm'>
-  <name><%= vm_name %></name>
-  <uuid><%= vm_uuid %></uuid>
-  <memory unit='MiB'><%= mem_mb %></memory>
-  <currentMemory unit='MiB'><%= mem_mb %></currentMemory>
-  <vcpu placement='static'><%= vcpu %></vcpu>
+  <name><%= @vm_name %></name>
+  <uuid><%= @vm_uuid %></uuid>
+  <memory unit='MiB'><%= @mem_mb %></memory>
+  <currentMemory unit='MiB'><%= @mem_mb %></currentMemory>
+  <vcpu placement='static'><%= @vcpu %></vcpu>
   <sysinfo type='smbios'>
     <system>
       <entry name='manufacturer'>Reliance Jio</entry>
       <entry name='product'>JioCloud</entry>
       <entry name='version'>0.1</entry>
-      <entry name='serial'><%= vm_serial %></entry>
-      <entry name='uuid'><%= vm_uuid %></entry>
+      <entry name='serial'><%= @vm_serial %></entry>
+      <entry name='uuid'><%= @vm_uuid %></entry>
     </system>
   </sysinfo>
   <os>
@@ -53,7 +53,7 @@
    <% else %>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2' cache='none'/>
-      <source file='/var/lib/libvirt/images/<%= vm_name %>/disk_image.qcow2'/>
+      <source file='<%= @vmimage_path %>/<%= vm_name %>/disk_image.qcow2'/>
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
     </disk>
@@ -63,20 +63,20 @@
     </controller>
     <!-- <controller type='pci' index='1' model='pci-root'/> -->
     <interface type='bridge'>
-      <mac address='<%= mac_addr %>'/>
-      <source bridge='<%= bridge %>'/>
+      <mac address='<%= @mac_addr %>'/>
+      <source bridge='<%= @bridge %>'/>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
     </interface>
     <serial type='file'>
-      <source path='/var/lib/libvirt/images/<%= vm_name %>/console.log'/>
+      <source path='<%= @vmimage_path %>/<%= @vm_name %>/console.log'/>
       <target port='0'/>
     </serial>
     <serial type='pty'>
       <target port='1'/>
     </serial>
     <console type='file'>
-      <source path='/var/lib/libvirt/images/<%= vm_name %>/console.log'/>
+      <source path='<%= @vmimage_path %>/<%= @vm_name %>/console.log'/>
       <target type='serial' port='0'/>
     </console>
     <input type='tablet' bus='usb'/>

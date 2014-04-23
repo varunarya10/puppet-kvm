@@ -6,6 +6,7 @@ class kvm (
     $image_url	= 'http://192.168.43.128/cirros.qcow2',
     $vm_uuid	= '5fe11193-d3fa-4cec-a9d5-2c211323024e',
     $vm_serial	= 'mu.jio-p1-ctrl-1',
+    $vmimage_path	= '/var/lib/libvirt/images',
     $source	= 'image',
     $disk_size	= '20G',
     $rbd_disk_image	= undef,
