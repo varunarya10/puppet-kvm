@@ -1,6 +1,5 @@
 <domain type='kvm'>
   <name><%= @vm_name %></name>
-  <uuid><%= @vm_uuid %></uuid>
   <memory unit='MiB'><%= @mem_mb %></memory>
   <currentMemory unit='MiB'><%= @mem_mb %></currentMemory>
   <vcpu placement='static'><%= @vcpu %></vcpu>
@@ -10,7 +9,6 @@
       <entry name='product'>JioCloud</entry>
       <entry name='version'>0.1</entry>
       <entry name='serial'><%= @vm_serial %></entry>
-      <entry name='uuid'><%= @vm_uuid %></entry>
     </system>
   </sysinfo>
   <os>
