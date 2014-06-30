@@ -10,6 +10,8 @@ define kvm::vm_boot  (
     $vm_serial  = 'mu.jio-p1-ctrl-1',
     $source     = 'image',
     $disk_size  = '20G',
+    $second_disk = false,
+    $second_disk_size = '10G',
     $rbd_disk_image     = undef,
     $mac_addr,
 ) {
@@ -64,12 +66,21 @@ define kvm::vm_boot  (
         unless  => "virsh -q list --all | grep -q $vm_name",
   }
 
--> 
-
+  if $second_disk {
+    exec { "add_second_disk_${vm_name}":
+      command => "qemu-img create -f qcow2 ${vmimage_path}/$vm_name/second_disk.qcow2 $second_disk_size && \
+		virsh attach-disk $vm_name ${vmimage_path}/$vm_name/second_disk.qcow2 vdb --persistent",
+      path    => "/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/sbin",
+      unless  => "test -f ${vmimage_path}/$vm_name/second_disk.qcow2",
+      before  => Exec["vm_boot_${vm_name}"],
+    }
+  }
+ 
   exec { "vm_boot_${vm_name}":
         command => "virsh start $vm_name",
         path    => "/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin:/usr/local/sbin",
         unless  => "virsh -q list --all | grep -q \"$vm_name *running\"",
+        require => Exec["vm_define_${vm_name}"],
   }
 
    
