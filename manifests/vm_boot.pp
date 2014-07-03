@@ -10,8 +10,6 @@ define kvm::vm_boot  (
     $vm_serial  = 'mu.jio-p1-ctrl-1',
     $source     = 'image',
     $disk_size  = '20G',
-    $second_disk = false,
-    $second_disk_size = '10G',
     $rbd_disk_image     = undef,
     $mac_addr,
 ) {
